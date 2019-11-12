@@ -174,6 +174,27 @@ void string2hexString(char* input, char* output)
     //insert NULL at the end of the output string
     output[i++] = '\0';
 }
+ void setPackage(uint8_t package[], uint8_t message,uint16_t offset, uint16_t messageLen) {
+	for (int i = 0; i < messageLen; i++)
+	{
+		if (i==0)
+		{
+			package[offset - i] = message % 10;
+		}
+		else {
+			package[offset - i] = (message - (message % (10^i )) / 10^i) % 10;
+		}
+		
+	}
+}
+ float convertDMStoGPS(float dms){
+	float gps = 1;
+	float degree = floor(dms / 10000);
+	float minutes = floor((dms - degree * 10000) / 100);
+	float seconds = dms - (degree * 10000 + minutes * 100);
+	gps = degree + minutes / 60 + seconds / 3600;
+	return gps;
+ }
 /* USER CODE END 0 */
 
 /**
