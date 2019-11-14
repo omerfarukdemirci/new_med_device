@@ -157,6 +157,14 @@ void calibrate()
 	un_prev_data=aun_red_buffer[i];
 
 }
+ int quick_pow10(int n)
+{
+	static int pow10[10] = {1, 10, 100, 1000, 10000,100000,1000000,
+		10000000, 100000000, 1000000000
+	};
+	return pow10[n];
+}
+
 void string2hexString(char* input, char* output)
 {
     int loop;
@@ -174,19 +182,23 @@ void string2hexString(char* input, char* output)
     //insert NULL at the end of the output string
     output[i++] = '\0';
 }
- void setPackage(uint8_t package[], uint8_t message,uint16_t offset, uint16_t messageLen) {
-	for (int i = 0; i < messageLen; i++)
+ void setPackage(uint8_t package[], uint32_t message,uint16_t offset, uint16_t len) {
+	uint8_t c;
+	for (int i = 0; i < len; i++)
 	{
 		if (i==0)
 		{
-			package[offset - i] = message % 10;
+			c = message % 10 + '0';
+			package[offset+len - i] = c;
 		}
 		else {
-			package[offset - i] = (message - (message % (10^i )) / 10^i) % 10;
+			c =((message-(message%(quick_pow10(i)))/quick_pow10(i)) % 10) + '0';
+			package[offset+len - i] = c;
 		}
 		
 	}
 }
+ 
  float convertDMStoGPS(float dms){
 	float gps = 1;
 	float degree = floor(dms / 10000);
@@ -195,6 +207,31 @@ void string2hexString(char* input, char* output)
 	gps = degree + minutes / 60 + seconds / 3600;
 	return gps;
  }
+ 
+ 
+
+
+int findigit(float message) {
+	if (abs(message)<1)
+	{
+		return 1;
+	}
+	else {
+		for (int i = 0; i < 10; i++)
+		{
+			int l = quick_pow10(i);
+			int u = quick_pow10(i + 1);
+			if (l <= abs(message) && abs(message) < u) {
+				return i + 1;
+			}
+			else {
+				
+			}
+		}
+	}
+
+	
+}
 /* USER CODE END 0 */
 
 /**
@@ -285,7 +322,7 @@ int main(void)
 	n_ir_buffer_length=500; //buffer length of 100 stores 5 seconds of samples running at 100sps
 	
 	calibrate();
-	uint8_t trans[45]="H=10, S=20, 00.000000N, 00.000000E, 0000.00M";
+	uint8_t trans[59]="HEAD=MD11LAT38.740190LON35.484684ALT10HB10SP10BUT00ID1END";
 	//trans[19]=(char)n_heart_rate;
 	
 	lati=(uint32_t)(latitude*10000);
