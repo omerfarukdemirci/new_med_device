@@ -182,34 +182,6 @@ void string2hexString(char* input, char* output)
     //insert NULL at the end of the output string
     output[i++] = '\0';
 }
- void setPackage(uint8_t package[], uint32_t message,uint16_t offset, uint16_t len) {
-	uint8_t c;
-	for (int i = 0; i < len; i++)
-	{
-		if (i==0)
-		{
-			c = message % 10 + '0';
-			package[offset+len - i] = c;
-		}
-		else {
-			c =((message-(message%(quick_pow10(i)))/quick_pow10(i)) % 10) + '0';
-			package[offset+len - i] = c;
-		}
-		
-	}
-}
- 
- float convertDMStoGPS(float dms){
-	float gps = 1;
-	float degree = floor(dms / 10000);
-	float minutes = floor((dms - degree * 10000) / 100);
-	float seconds = dms - (degree * 10000 + minutes * 100);
-	gps = degree + minutes / 60 + seconds / 3600;
-	return gps;
- }
- 
- 
-
 
 int findigit(float message) {
 	if (abs(message)<1)
@@ -229,9 +201,41 @@ int findigit(float message) {
 			}
 		}
 	}
-
-	
 }
+
+
+void setPackage(uint8_t package[], float message,uint16_t offset, uint16_t len) {
+	uint8_t c;
+	int k;
+	int digit = findigit(message);
+	uint32_t fit = (float)message *quick_pow10((len - digit));
+	for (int i = 0; i < len+1; i++)
+	{
+		if (i==0)
+		{
+			k = 1;
+			c = fit % 10 + '0';
+		}
+		else if (i==len-digit) {
+			c = '.';
+		}
+		else {
+			c =((fit -(fit % (quick_pow10(k))))/(quick_pow10(k)) % 10) + '0';
+			k++;
+		}
+		package[offset+len - i] = c;
+	}
+}
+ 
+ float convertDMStoGPS(float dms){
+	float gps = 1;
+	float degree = floor(dms / 10000);
+	float minutes = floor((dms - degree * 10000) / 100);
+	float seconds = dms - (degree * 10000 + minutes * 100);
+	gps = degree + minutes / 60 + seconds / 3600;
+	return gps;
+ }
+ 
 /* USER CODE END 0 */
 
 /**
