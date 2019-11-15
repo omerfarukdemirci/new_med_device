@@ -52,6 +52,8 @@ uint32_t un_prev_data;  //variables to calculate the on-board LED brightness tha
 int i;
 int32_t n_brightness;
 float f_temp;
+int medID=1;
+int32_t butState=11;
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -157,6 +159,14 @@ void calibrate()
 	un_prev_data=aun_red_buffer[i];
 
 }
+ int quick_pow10(int n)
+{
+	static int pow10[10] = {1, 10, 100, 1000, 10000,100000,1000000,
+		10000000, 100000000, 1000000000
+	};
+	return pow10[n];
+}
+
 void string2hexString(char* input, char* output)
 {
     int loop;
@@ -174,6 +184,68 @@ void string2hexString(char* input, char* output)
     //insert NULL at the end of the output string
     output[i++] = '\0';
 }
+
+int findigit(float message) {
+	if (abs(message)<1)
+	{
+		return 1;
+	}
+	else {
+		for (int i = 0; i < 10; i++)
+		{
+			int l = quick_pow10(i);
+			int u = quick_pow10(i + 1);
+			if (l <= abs(message) && abs(message) < u) {
+				return i + 1;
+			}
+			else {
+				
+			}
+		}
+	}
+}
+
+
+void setPackage(uint8_t package[], float message,uint16_t offset, uint16_t len) {
+	uint8_t c;
+	int k;
+	int digit = findigit(message);
+	uint32_t fit = (float)message *quick_pow10((len - digit));
+	int up=0;
+	if (digit == len) { 
+		up = len;
+	}
+	else { 
+		up = len + 1;
+	}
+	for (int i = 0;i<up; i++)
+	{
+		if (i==0)
+		{
+			k = 1;
+			c = fit % 10 + '0';
+		}
+		else if (i==len-digit) {
+			c = '.';
+		}
+		else {
+			c =((fit -(fit % (quick_pow10(k))))/(quick_pow10(k)) % 10) + '0';
+			k++;
+		}
+		package[offset - i] = c;
+	}
+}
+
+ 
+ float convertDMStoGPS(float dms){
+	float gps = 1;
+	float degree = floor(dms / 10000);
+	float minutes = floor((dms - degree * 10000) / 100);
+	float seconds = dms - (degree * 10000 + minutes * 100);
+	gps = degree + minutes / 60 + seconds / 3600;
+	return gps;
+ }
+ 
 /* USER CODE END 0 */
 
 /**
@@ -264,77 +336,19 @@ int main(void)
 	n_ir_buffer_length=500; //buffer length of 100 stores 5 seconds of samples running at 100sps
 	
 	calibrate();
-	uint8_t trans[45]="H=10, S=20, 00.000000N, 00.000000E, 0000.00M";
+	uint8_t trans[68]="HEAD=MD11LAT000000000LON000000000ALT000000000HB000SP000BUT00ID1END";
 	//trans[19]=(char)n_heart_rate;
 	
-	lati=(uint32_t)(latitude*10000);
-	logi=(uint32_t)(longitude*10000);
-	alti=(uint32_t)(altitude*100);
-	lati=38742461;
-	logi=35478911;
-	alti=105412;
-	char c = n_heart_rate%10+'0';
-	trans[3]=c;
-	c = ((n_heart_rate-(n_heart_rate%10))/10)%10+'0';
-	trans[2]=c;
-	c = n_sp02%10+'0';
-	trans[9]=c;
-	c = ((n_sp02-(n_sp02%10))/10)%10+'0';
-	trans[8]=c;
-	
-	c=lati%10+'0';
-	trans[20]=c;
-	c = ((lati-(lati%10))/10)%10+'0';
-	trans[19]=c;
-	c = ((lati-(lati%100))/100)%10+'0';
-	trans[18]=c;
-	c = ((lati-(lati%1000))/1000)%10+'0';
-	trans[17]=c;
-	c = ((lati-(lati%10000))/10000)%10+'0';
-	trans[16]=c;
-	c = ((lati-(lati%100000))/100000)%10+'0';
-	trans[15]=c;
-	c = ((lati-(lati%1000000))/1000000)%10+'0';
-	trans[13]=c;
-	c = ((lati-(lati%10000000))/10000000)%10+'0';
-	trans[12]=c;
-	
-	c=logi%10+'0';
-	trans[32]=c;
-	c = ((logi-(logi%10))/10)%10+'0';
-	trans[31]=c;
-	c = ((logi-(logi%100))/100)%10+'0';
-	trans[30]=c;
-	c = ((logi-(logi%1000))/1000)%10+'0';
-	trans[29]=c;
-	c = ((logi-(logi%10000))/10000)%10+'0';
-	trans[28]=c;
-	c = ((logi-(logi%100000))/1000000)%10+'0';
-	trans[27]=c;
-	c = ((logi-(logi%1000000))/1000000)%10+'0';
-	trans[25]=c;
-	c = ((logi-(logi%10000000))/10000000)%10+'0';
-	trans[24]=c;
-	
-	c=alti%10+'0';
-	trans[42]=c;
-	c = ((alti-(alti%10))/10)%10+'0';
-	trans[41]=c;
-	c = ((alti-(alti%100))/100)%10+'0';
-	trans[39]=c;
-	c = ((alti-(alti%1000))/1000)%10+'0';
-	trans[38]=c;
-	c = ((alti-(alti%10000))/10000)%10+'0';
-	trans[37]=c;
-	c = ((alti-(alti%100000))/100000)%10+'0';
-	trans[36]=c;
-	//string2hexString((char*)&trans,hex_str);
-	//uint8_t sendd[118]="7E003700010013A200419A292A00483D30302C20533D30302C2030302E3030303030304E2C2030302E303030303030452C20303030302E30304D";
-	//sendd[116]='8';
-	//sendd[117]='C';
-	/*for(int j=0;j<87;j++){
-	sendd[j+28]=hex_str[j];
-	}*/
+	lati=(uint32_t)(convertDMStoGPS(latitude));
+	logi=(uint32_t)(convertDMStoGPS(longitude));
+	alti=(uint32_t)(altitude);
+	setPackage(trans,lati,20,6);
+	setPackage(trans,logi,32,6);
+	setPackage(trans,alti,44,6);
+	setPackage(trans,n_heart_rate,49,2);
+	setPackage(trans,n_sp02,54,2);
+	setPackage(trans,butState,59,2);
+	setPackage(trans,medID,62,1);
 	
 	HAL_UART_Transmit_IT(&huart1,trans,sizeof(trans));
 	maxim_heart_rate_and_oxygen_saturation(aun_ir_buffer, n_ir_buffer_length, aun_red_buffer, &n_sp02, &ch_spo2_valid, &n_heart_rate, &ch_hr_valid);
@@ -412,76 +426,18 @@ int main(void)
 							calibrate();
 							need_calibration = false;
 						}
-						/*LCD1602_print("   HR: ");
-						LCD1602_PrintInt(n_heart_rate);
-						LCD1602_2ndLine();
-						LCD1602_print("   Spo2: ");
-						LCD1602_PrintInt(n_sp02);*/
-						lati=38742461;
-						logi=35478911;
-						alti=105412;
-						char c = n_heart_rate%10+'0';
-						trans[3]=c;
-						c = ((n_heart_rate-(n_heart_rate%10))/10)%10+'0';
-						trans[2]=c;
-						c = n_sp02%10+'0';
-						trans[9]=c;
-						c = ((n_sp02-(n_sp02%10))/10)%10+'0';
-						trans[8]=c;
 						
-						c=lati%10+'0';
-						trans[20]=c;
-						c = ((lati-(lati%10))/10)%10+'0';
-						trans[19]=c;
-						c = ((lati-(lati%100))/100)%10+'0';
-						trans[18]=c;
-						c = ((lati-(lati%1000))/1000)%10+'0';
-						trans[17]=c;
-						c = ((lati-(lati%10000))/10000)%10+'0';
-						trans[16]=c;
-						c = ((lati-(lati%100000))/100000)%10+'0';
-						trans[15]=c;
-						c = ((lati-(lati%1000000))/1000000)%10+'0';
-						trans[13]=c;
-						c = ((lati-(lati%10000000))/10000000)%10+'0';
-						trans[12]=c;
+						lati=(uint32_t)(convertDMStoGPS(latitude));
+						logi=(uint32_t)(convertDMStoGPS(longitude));
+						alti=(uint32_t)(altitude);
+						setPackage(trans,lati,20,6);
+						setPackage(trans,logi,32,6);
+						setPackage(trans,alti,44,6);
+						setPackage(trans,n_heart_rate,49,2);
+						setPackage(trans,n_sp02,54,2);
+						setPackage(trans,butState,59,2);
+						setPackage(trans,medID,62,1);
 						
-						c=logi%10+'0';
-						trans[32]=c;
-						c = ((logi-(logi%10))/10)%10+'0';
-						trans[31]=c;
-						c = ((logi-(logi%100))/100)%10+'0';
-						trans[30]=c;
-						c = ((logi-(logi%1000))/1000)%10+'0';
-						trans[29]=c;
-						c = ((logi-(logi%10000))/10000)%10+'0';
-						trans[28]=c;
-						c = ((logi-(logi%100000))/1000000)%10+'0';
-						trans[27]=c;
-						c = ((logi-(logi%1000000))/1000000)%10+'0';
-						trans[25]=c;
-						c = ((logi-(logi%10000000))/10000000)%10+'0';
-						trans[24]=c;
-						
-						c=alti%10+'0';
-						trans[42]=c;
-						c = ((alti-(alti%10))/10)%10+'0';
-						trans[41]=c;
-						c = ((alti-(alti%100))/100)%10+'0';
-						trans[39]=c;
-						c = ((alti-(alti%1000))/1000)%10+'0';
-						trans[38]=c;
-						c = ((alti-(alti%10000))/10000)%10+'0';
-						trans[37]=c;
-						c = ((alti-(alti%100000))/100000)%10+'0';
-						trans[36]=c;
-						//string2hexString((char*)&trans,hex_str);
-						//uint8_t sendd[118]="7E003700010013A200419A292A00483D30302C20533D30302C2030302E3030303030304E2C2030302E303030303030452C20303030302E30304D";
-						//sendd[116]='8';
-						//sendd[117]='C';
-						/*for(int j=0;j<87;j++){
-						sendd[j+28]=hex_str[j];
-						}*/
 						HAL_UART_Transmit_IT(&huart1,trans,sizeof(trans));
 					}
 				}
