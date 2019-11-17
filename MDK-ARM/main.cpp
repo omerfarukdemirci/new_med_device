@@ -246,6 +246,9 @@ void setPackage(uint8_t package[], float message,uint16_t offset, uint16_t len) 
 	return gps;
  }
  
+ void resetButState(){
+  butState=11;
+ }
 /* USER CODE END 0 */
 
 /**
@@ -349,8 +352,8 @@ int main(void)
 	setPackage(trans,n_sp02,54,2);
 	setPackage(trans,butState,59,2);
 	setPackage(trans,medID,62,1);
-	
 	HAL_UART_Transmit_IT(&huart1,trans,sizeof(trans));
+	resetButState();
 	maxim_heart_rate_and_oxygen_saturation(aun_ir_buffer, n_ir_buffer_length, aun_red_buffer, &n_sp02, &ch_spo2_valid, &n_heart_rate, &ch_hr_valid);
 	
 	
@@ -439,6 +442,7 @@ int main(void)
 						setPackage(trans,medID,62,1);
 						
 						HAL_UART_Transmit_IT(&huart1,trans,sizeof(trans));
+						resetButState();
 					}
 				}
 				
@@ -663,7 +667,25 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+{
+	if(GPIO_Pin == GPIO_PIN_5){
+    if(butState==11){
+			butState=21;
+		}else if(butState==12){
+			butState=22;
+		}
+	}
+	if(GPIO_Pin==GPIO_PIN_6){
+		if(butState==11){
+			butState=12;
+		}else if(butState==21){
+			butState=22;
+		}
+	}
+  
 
+}
 /* USER CODE END 4 */
 
 /**

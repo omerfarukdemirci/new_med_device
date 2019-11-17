@@ -3,7 +3,7 @@
 <title>Static Call Graph - [new_med_device\new_med_device.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image new_med_device\new_med_device.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Sat Nov 16 02:27:46 2019
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Mon Nov 18 01:34:13 2019
 <BR><P>
 <H3>Maximum Stack Usage =        824 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -630,7 +630,7 @@ Global Symbols
 <LI><a href="#[e2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;calibrate()
 </UL>
 
-<P><STRONG><a name="[7a]"></a>HAL_GPIO_EXTI_Callback</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, stm32l4xx_hal_gpio.o(i.HAL_GPIO_EXTI_Callback))
+<P><STRONG><a name="[7a]"></a>HAL_GPIO_EXTI_Callback</STRONG> (Thumb, 46 bytes, Stack size 0 bytes, main.o(i.HAL_GPIO_EXTI_Callback))
 <BR><BR>[Called By]<UL><LI><a href="#[77]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_EXTI_IRQHandler
 </UL>
 
@@ -1386,7 +1386,7 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> printfa.o(i.__0printf)
 </UL>
-<P><STRONG><a name="[46]"></a>main</STRONG> (Thumb, 1924 bytes, Stack size 312 bytes, main.o(i.main))
+<P><STRONG><a name="[46]"></a>main</STRONG> (Thumb, 1930 bytes, Stack size 312 bytes, main.o(i.main))
 <BR><BR>[Stack]<UL><LI>Max Depth = 824<LI>Call Chain = main &rArr; calibrate() &rArr; maxim_max30102_read_fifo(__I2C_HandleTypeDef, unsigned*, unsigned*) &rArr; maxim_max30102_read_reg(__I2C_HandleTypeDef, unsigned char, unsigned char*) &rArr; HAL_I2C_Master_Receive &rArr; I2C_WaitOnRXNEFlagUntilTimeout &rArr; I2C_IsAcknowledgeFailed
 </UL>
 <BR>[Calls]<UL><LI><a href="#[dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;maxim_heart_rate_and_oxygen_saturation(unsigned*, int, unsigned*, int*, signed char*, int*, signed char*)
