@@ -3,7 +3,7 @@
 <title>Static Call Graph - [new_med_device\new_med_device.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image new_med_device\new_med_device.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Tue Nov 19 15:48:35 2019
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Tue Nov 19 22:46:11 2019
 <BR><P>
 <H3>Maximum Stack Usage =        824 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -305,9 +305,9 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[57]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_llsr
 <LI><a href="#[58]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_llsl
 </UL>
-<BR>[Called By]<UL><LI><a href="#[9f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_SetConfig
-<LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_core
+<BR>[Called By]<UL><LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_core
 <LI><a href="#[ea]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_fp_digits
+<LI><a href="#[9f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_SetConfig
 </UL>
 
 <P><STRONG><a name="[59]"></a>__rt_ctype_table</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, ctype_o.o(.text))
@@ -1059,10 +1059,10 @@ Global Symbols
 <P><STRONG><a name="[9f]"></a>UART_SetConfig</STRONG> (Thumb, 526 bytes, Stack size 24 bytes, stm32l4xx_hal_uart.o(i.UART_SetConfig))
 <BR><BR>[Stack]<UL><LI>Max Depth = 64<LI>Call Chain = UART_SetConfig &rArr; __aeabi_uldivmod
 </UL>
-<BR>[Calls]<UL><LI><a href="#[94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCC_GetSysClockFreq
+<BR>[Calls]<UL><LI><a href="#[56]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_uldivmod
+<LI><a href="#[94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCC_GetSysClockFreq
 <LI><a href="#[bd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCC_GetPCLK2Freq
 <LI><a href="#[bc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCC_GetPCLK1Freq
-<LI><a href="#[56]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_uldivmod
 </UL>
 <BR>[Called By]<UL><LI><a href="#[9d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_Init
 </UL>
@@ -1113,9 +1113,9 @@ Global Symbols
 <BR><BR>[Stack]<UL><LI>Max Depth = 80<LI>Call Chain = sendCommand(__UART_HandleTypeDef, char*) &rArr; HAL_UART_Transmit &rArr; UART_WaitOnFlagUntilTimeout
 </UL>
 <BR>[Calls]<UL><LI><a href="#[78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Delay
-<LI><a href="#[aa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_Transmit
 <LI><a href="#[a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
 <LI><a href="#[c1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;strlen
+<LI><a href="#[aa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_Transmit
 </UL>
 <BR>[Called By]<UL><LI><a href="#[46]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
@@ -1171,8 +1171,8 @@ Global Symbols
 <P><STRONG><a name="[d4]"></a>maxim_max30102_init(__I2C_HandleTypeDef)</STRONG> (Thumb, 1034 bytes, Stack size 176 bytes, max30102.o(i._Z19maxim_max30102_init19__I2C_HandleTypeDef))
 <BR><BR>[Stack]<UL><LI>Max Depth = 288<LI>Call Chain = maxim_max30102_init(__I2C_HandleTypeDef) &rArr; maxim_max30102_write_reg(__I2C_HandleTypeDef, unsigned char, unsigned char) &rArr; HAL_I2C_Master_Transmit &rArr; I2C_WaitOnTXISFlagUntilTimeout &rArr; I2C_IsAcknowledgeFailed
 </UL>
-<BR>[Calls]<UL><LI><a href="#[d6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;maxim_max30102_write_reg(__I2C_HandleTypeDef, unsigned char, unsigned char)
-<LI><a href="#[d5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy4
+<BR>[Calls]<UL><LI><a href="#[d5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy4
+<LI><a href="#[d6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;maxim_max30102_write_reg(__I2C_HandleTypeDef, unsigned char, unsigned char)
 </UL>
 <BR>[Called By]<UL><LI><a href="#[46]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
@@ -1180,8 +1180,8 @@ Global Symbols
 <P><STRONG><a name="[d7]"></a>maxim_max30102_reset(__I2C_HandleTypeDef)</STRONG> (Thumb, 108 bytes, Stack size 168 bytes, max30102.o(i._Z20maxim_max30102_reset19__I2C_HandleTypeDef))
 <BR><BR>[Stack]<UL><LI>Max Depth = 280<LI>Call Chain = maxim_max30102_reset(__I2C_HandleTypeDef) &rArr; maxim_max30102_write_reg(__I2C_HandleTypeDef, unsigned char, unsigned char) &rArr; HAL_I2C_Master_Transmit &rArr; I2C_WaitOnTXISFlagUntilTimeout &rArr; I2C_IsAcknowledgeFailed
 </UL>
-<BR>[Calls]<UL><LI><a href="#[d6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;maxim_max30102_write_reg(__I2C_HandleTypeDef, unsigned char, unsigned char)
-<LI><a href="#[d5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy4
+<BR>[Calls]<UL><LI><a href="#[d5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy4
+<LI><a href="#[d6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;maxim_max30102_write_reg(__I2C_HandleTypeDef, unsigned char, unsigned char)
 </UL>
 <BR>[Called By]<UL><LI><a href="#[d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;maxim_max30102_restart(__I2C_HandleTypeDef)
 <LI><a href="#[46]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
@@ -1192,8 +1192,8 @@ Global Symbols
 <BR><BR>[Stack]<UL><LI>Max Depth = 456<LI>Call Chain = maxim_max30102_restart(__I2C_HandleTypeDef) &rArr; maxim_max30102_reset(__I2C_HandleTypeDef) &rArr; maxim_max30102_write_reg(__I2C_HandleTypeDef, unsigned char, unsigned char) &rArr; HAL_I2C_Master_Transmit &rArr; I2C_WaitOnTXISFlagUntilTimeout &rArr; I2C_IsAcknowledgeFailed
 </UL>
 <BR>[Calls]<UL><LI><a href="#[d7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;maxim_max30102_reset(__I2C_HandleTypeDef)
-<LI><a href="#[d9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;maxim_max30102_read_reg(__I2C_HandleTypeDef, unsigned char, unsigned char*)
 <LI><a href="#[d5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy4
+<LI><a href="#[d9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;maxim_max30102_read_reg(__I2C_HandleTypeDef, unsigned char, unsigned char*)
 </UL>
 <BR>[Called By]<UL><LI><a href="#[46]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
@@ -1211,10 +1211,10 @@ Global Symbols
 <P><STRONG><a name="[da]"></a>maxim_max30102_read_fifo(__I2C_HandleTypeDef, unsigned*, unsigned*)</STRONG> (Thumb, 322 bytes, Stack size 200 bytes, max30102.o(i._Z24maxim_max30102_read_fifo19__I2C_HandleTypeDefPjS0_))
 <BR><BR>[Stack]<UL><LI>Max Depth = 328<LI>Call Chain = maxim_max30102_read_fifo(__I2C_HandleTypeDef, unsigned*, unsigned*) &rArr; maxim_max30102_read_reg(__I2C_HandleTypeDef, unsigned char, unsigned char*) &rArr; HAL_I2C_Master_Receive &rArr; I2C_WaitOnRXNEFlagUntilTimeout &rArr; I2C_IsAcknowledgeFailed
 </UL>
-<BR>[Calls]<UL><LI><a href="#[85]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_I2C_Master_Transmit
+<BR>[Calls]<UL><LI><a href="#[d5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy4
+<LI><a href="#[85]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_I2C_Master_Transmit
 <LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_I2C_Master_Receive
 <LI><a href="#[d9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;maxim_max30102_read_reg(__I2C_HandleTypeDef, unsigned char, unsigned char*)
-<LI><a href="#[d5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy4
 </UL>
 <BR>[Called By]<UL><LI><a href="#[46]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 <LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;calibrate()

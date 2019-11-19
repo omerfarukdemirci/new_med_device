@@ -700,8 +700,6 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 			butState=22;
 		}
 	}
-  
-butState=butState;
 }
 /* USER CODE END 4 */
 
