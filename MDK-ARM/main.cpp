@@ -118,6 +118,8 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
 	
 }
 
+
+
 void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart)
 {
 	
@@ -353,7 +355,9 @@ int main(void)
 	setPackage(trans,butState,59,2);
 	setPackage(trans,medID,62,1);
 	HAL_UART_Transmit_IT(&huart1,trans,sizeof(trans));
+	if(butState!=11){
 	resetButState();
+	}
 	maxim_heart_rate_and_oxygen_saturation(aun_ir_buffer, n_ir_buffer_length, aun_red_buffer, &n_sp02, &ch_spo2_valid, &n_heart_rate, &ch_hr_valid);
 	
 	
@@ -377,7 +381,6 @@ int main(void)
 		
     /* USER CODE BEGIN 3 */
 		HAL_Delay(10);
-		
 		if(last_i > 400){
 			last_i = 0;
 		}
@@ -442,7 +445,9 @@ int main(void)
 						setPackage(trans,medID,62,1);
 						
 						HAL_UART_Transmit_IT(&huart1,trans,sizeof(trans));
-						resetButState();
+							if(butState!=11){
+								resetButState();
+							}
 					}
 				}
 				
@@ -654,32 +659,41 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOA_CLK_ENABLE();
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
-  /*Configure GPIO pins : PA4 PA5 */
-  GPIO_InitStruct.Pin = GPIO_PIN_4|GPIO_PIN_5;
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_3, GPIO_PIN_RESET);
+
+  /*Configure GPIO pins : PB0 PB1 */
+  GPIO_InitStruct.Pin = GPIO_PIN_0|GPIO_PIN_1;
   GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
+  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
+  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : PB3 */
+  GPIO_InitStruct.Pin = GPIO_PIN_3;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
   /* EXTI interrupt init*/
-  HAL_NVIC_SetPriority(EXTI4_IRQn, 0, 0);
-  HAL_NVIC_EnableIRQ(EXTI4_IRQn);
+  HAL_NVIC_SetPriority(EXTI0_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(EXTI0_IRQn);
 
-  HAL_NVIC_SetPriority(EXTI9_5_IRQn, 0, 0);
-  HAL_NVIC_EnableIRQ(EXTI9_5_IRQn);
+  HAL_NVIC_SetPriority(EXTI1_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(EXTI1_IRQn);
 
 }
-
 /* USER CODE BEGIN 4 */
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
-	if(GPIO_Pin == GPIO_PIN_5){
+	if(GPIO_Pin == GPIO_PIN_1){
     if(butState==11){
 			butState=21;
 		}else if(butState==12){
 			butState=22;
 		}
 	}
-	if(GPIO_Pin==GPIO_PIN_4){
+	if(GPIO_Pin==GPIO_PIN_0){
 		if(butState==11){
 			butState=12;
 		}else if(butState==21){
@@ -687,7 +701,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 		}
 	}
   
-
+butState=butState;
 }
 /* USER CODE END 4 */
 
