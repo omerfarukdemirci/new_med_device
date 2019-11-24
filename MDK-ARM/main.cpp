@@ -37,7 +37,8 @@
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
 #define MAX_BRIGHTNESS 255
-
+uint8_t trans[68]="HEAD=MD11LAT000000000LON000000000ALT000000000HB000SP000BUT00ID1END";
+bool readytoSend=0;
 uint32_t aun_ir_buffer[500]; //IR LED sensor data
 int32_t n_ir_buffer_length;    //data length
 uint32_t aun_red_buffer[500];    //Red LED sensor data
@@ -62,8 +63,8 @@ int32_t butState=11;
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
-
 I2C_HandleTypeDef hi2c1;
+TIM_HandleTypeDef htim16;
 UART_HandleTypeDef huart1;
 UART_HandleTypeDef huart2;
 
@@ -77,6 +78,7 @@ static void MX_GPIO_Init(void);
 static void MX_USART1_UART_Init(void);
 static void MX_USART2_UART_Init(void);
 static void MX_I2C1_Init(void);
+static void MX_TIM16_Init(void);
 
 /* USER CODE BEGIN PFP */
 uint8_t temporary;
@@ -133,7 +135,7 @@ void calibrate()
   un_max=0;
 	for(int i=0;i<n_ir_buffer_length;i++)
 	{
-			HAL_Delay(20);
+			HAL_Delay(10);
 			
 			bool ok = maxim_max30102_read_fifo(hi2c1, (aun_red_buffer+i), (aun_ir_buffer+i));  //read from MAX30102 FIFO
 			if(!ok)
@@ -285,7 +287,11 @@ int main(void)
   MX_USART1_UART_Init();
   MX_USART2_UART_Init();
   MX_I2C1_Init();
+  MX_TIM16_Init();
   /* USER CODE BEGIN 2 */
+	
+	HAL_TIM_Base_Init(&htim16);
+  HAL_TIM_Base_Start_IT(&htim16);
 	/////////////////////////GPS////////////////////////////////////////
 	
 	
@@ -341,7 +347,6 @@ int main(void)
 	n_ir_buffer_length=500; //buffer length of 100 stores 5 seconds of samples running at 100sps
 	
 	calibrate();
-	uint8_t trans[68]="HEAD=MD11LAT000000000LON000000000ALT000000000HB000SP000BUT00ID1END";
 	//trans[19]=(char)n_heart_rate;
 	
 	lati=(uint32_t)(convertDMStoGPS(latitude));
@@ -393,7 +398,7 @@ int main(void)
 					un_prev_data=aun_red_buffer[i-1];
 
 				
-				HAL_Delay(20);
+				HAL_Delay(50);
 				bool ok = maxim_max30102_read_fifo(hi2c1,(aun_red_buffer+i), (aun_ir_buffer+i));
 				if(!ok)
 					fail_number += 1;
@@ -443,11 +448,8 @@ int main(void)
 						setPackage(trans,n_sp02,54,2);
 						setPackage(trans,butState,59,2);
 						setPackage(trans,medID,62,1);
-						
-						HAL_UART_Transmit_IT(&huart1,trans,sizeof(trans));
-							if(butState!=11){
-								resetButState();
-							}
+						readytoSend=1;
+					
 					}
 				}
 				
@@ -580,6 +582,40 @@ static void MX_I2C1_Init(void)
   * @param None
   * @retval None
   */
+
+
+/**
+  * @brief TIM16 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_TIM16_Init(void)
+{
+
+  /* USER CODE BEGIN TIM16_Init 0 */
+
+  /* USER CODE END TIM16_Init 0 */
+
+  /* USER CODE BEGIN TIM16_Init 1 */
+
+  /* USER CODE END TIM16_Init 1 */
+  htim16.Instance = TIM16;
+  htim16.Init.Prescaler = 9999;
+  htim16.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim16.Init.Period = 3199;
+  htim16.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim16.Init.RepetitionCounter = 4;
+  htim16.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  if (HAL_TIM_Base_Init(&htim16) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN TIM16_Init 2 */
+
+  /* USER CODE END TIM16_Init 2 */
+
+}
+
 static void MX_USART1_UART_Init(void)
 {
 
@@ -700,6 +736,17 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 			butState=22;
 		}
 	}
+}
+
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim14)
+{   HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_3);
+	if(readytoSend){
+		HAL_UART_Transmit_IT(&huart1,trans,sizeof(trans));
+		if(butState!=11){
+			resetButState();
+		}
+	}
+	readytoSend=0;
 }
 /* USER CODE END 4 */
 

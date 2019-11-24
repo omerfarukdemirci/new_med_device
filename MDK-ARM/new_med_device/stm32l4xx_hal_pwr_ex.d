@@ -29,5 +29,7 @@ new_med_device\stm32l4xx_hal_pwr_ex.o: ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32
 new_med_device\stm32l4xx_hal_pwr_ex.o: ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_i2c_ex.h
 new_med_device\stm32l4xx_hal_pwr_ex.o: ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pwr.h
 new_med_device\stm32l4xx_hal_pwr_ex.o: ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pwr_ex.h
+new_med_device\stm32l4xx_hal_pwr_ex.o: ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_tim.h
+new_med_device\stm32l4xx_hal_pwr_ex.o: ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_tim_ex.h
 new_med_device\stm32l4xx_hal_pwr_ex.o: ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h
 new_med_device\stm32l4xx_hal_pwr_ex.o: ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h
