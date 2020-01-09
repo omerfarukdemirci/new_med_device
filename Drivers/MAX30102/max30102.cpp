@@ -100,12 +100,17 @@ bool maxim_max30102_read_reg(I2C_HandleTypeDef hi2c1, uint8_t uch_addr, uint8_t 
 	if(ok == HAL_OK){
 		int i = 0;
 		ok = HAL_I2C_Master_Receive(&hi2c1, I2C_READ_ADDR, &ch_i2c_data, 1, 10);
+	}else{
+		return false;
 	}
 	
-	if(ok == HAL_OK)
+	if(ok == HAL_OK){
 		*puch_data=(uint8_t) ch_i2c_data;
-	
-	return ok ==HAL_OK;
+		return true;
+	}
+	else{
+		return false;
+	}
 }
 
 bool maxim_max30102_restart(I2C_HandleTypeDef hi2c1)

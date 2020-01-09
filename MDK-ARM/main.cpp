@@ -44,7 +44,8 @@ int32_t n_ir_buffer_length;    //data length
 uint32_t aun_red_buffer[500];    //Red LED sensor data
 int32_t n_sp02; //SPO2 value
 int8_t ch_spo2_valid;   //indicator to show if the SP02 calculation is valid
-int32_t n_heart_rate,lati,logi,alti;   //heart rate value
+int32_t n_heart_rate;
+float lati,logi,alti;   //heart rate value
 int8_t  ch_hr_valid;    //indicator to show if the heart rate calculation is valid
 uint8_t temporary_xbee[26];
 char hex_str[((45-1)*2)];
@@ -135,7 +136,7 @@ void calibrate()
   un_max=0;
 	for(int i=0;i<n_ir_buffer_length;i++)
 	{
-			HAL_Delay(10);
+			//HAL_Delay(10);
 			
 			bool ok = maxim_max30102_read_fifo(hi2c1, (aun_red_buffer+i), (aun_ir_buffer+i));  //read from MAX30102 FIFO
 			if(!ok)
@@ -349,9 +350,9 @@ int main(void)
 	calibrate();
 	//trans[19]=(char)n_heart_rate;
 	
-	lati=(uint32_t)(convertDMStoGPS(latitude));
-	logi=(uint32_t)(convertDMStoGPS(longitude));
-	alti=(uint32_t)(altitude);
+	lati=convertDMStoGPS(float(latitude)*100);
+	logi=convertDMStoGPS(float(longitude)*100);
+	alti=altitude;
 	setPackage(trans,lati,20,6);
 	setPackage(trans,logi,32,6);
 	setPackage(trans,alti,44,6);
@@ -396,7 +397,11 @@ int main(void)
 					un_prev_data=aun_red_buffer[499];
 				else
 					un_prev_data=aun_red_buffer[i-1];
-
+				//update the signal min and max
+				if(un_min>aun_red_buffer[i])
+				un_min=aun_red_buffer[i];
+				if(un_max<aun_red_buffer[i])
+				un_max=aun_red_buffer[i];
 				
 				HAL_Delay(50);
 				bool ok = maxim_max30102_read_fifo(hi2c1,(aun_red_buffer+i), (aun_ir_buffer+i));
@@ -438,11 +443,11 @@ int main(void)
 							need_calibration = false;
 						}
 						
-						lati=(uint32_t)(convertDMStoGPS(latitude));
-						logi=(uint32_t)(convertDMStoGPS(longitude));
-						alti=(uint32_t)(altitude);
-						setPackage(trans,lati,20,6);
-						setPackage(trans,logi,32,6);
+						lati=convertDMStoGPS(float(latitude)*100);
+						logi=convertDMStoGPS(float(longitude)*100);
+						alti=altitude;
+						setPackage(trans,lati,20,8);
+						setPackage(trans,logi,32,8);
 						setPackage(trans,alti,44,6);
 						setPackage(trans,n_heart_rate,49,2);
 						setPackage(trans,n_sp02,54,2);
