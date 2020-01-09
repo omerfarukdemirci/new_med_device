@@ -152,7 +152,7 @@ void maxim_heart_rate_and_oxygen_saturation(uint32_t *pun_ir_buffer,  int32_t n_
 		if(*pn_heart_rate < 40)
 			*pn_heart_rate = 40;
 		
-		*pn_heart_rate = (int32_t)(40 + ((float)(*pn_heart_rate - 40)/(550-40) )*60);
+		*pn_heart_rate = (int32_t)(60 + ((float)(*pn_heart_rate - 40)/(550-40) )*10);
 		
 		for ( k=0 ; k<n_npks ;k++)
         an_ir_valley_locs[k]=an_dx_peak_locs[k]+HAMMING_SIZE/2; 

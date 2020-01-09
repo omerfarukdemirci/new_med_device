@@ -382,11 +382,15 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+		/*if(HAL_I2C_IsDeviceReady(&hi2c1,0xAE,3,5)!=HAL_OK){
+			maxim_max30102_restart(hi2c1);
+			maxim_max30102_init(hi2c1);
+		}*/
     /* USER CODE END WHILE */
 		// THIS IS AN INTERRUPT. WE USE INTERRUPTS EVERYWHERE :) 	
 		
     /* USER CODE BEGIN 3 */
-		HAL_Delay(10);
+		//HAL_Delay(10);
 		if(last_i > 400){
 			last_i = 0;
 		}
@@ -403,7 +407,7 @@ int main(void)
 				if(un_max<aun_red_buffer[i])
 				un_max=aun_red_buffer[i];
 				
-				HAL_Delay(50);
+				//HAL_Delay(50);
 				bool ok = maxim_max30102_read_fifo(hi2c1,(aun_red_buffer+i), (aun_ir_buffer+i));
 				if(!ok)
 					fail_number += 1;
