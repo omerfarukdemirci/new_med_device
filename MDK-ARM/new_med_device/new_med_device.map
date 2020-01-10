@@ -2125,14 +2125,14 @@ Image Symbol Table
     _printf_pre_padding                      0x08005adf   Thumb Code    46  printfa.o(i._printf_pre_padding)
     i.fputc                                  0x08005b0c   Section        0  retarget_io.o(i.fputc)
     i.main                                   0x08005b2c   Section        0  main.o(i.main)
-    .constdata                               0x08006320   Section       64  system_stm32l4xx.o(.constdata)
-    .constdata                               0x08006360   Section        8  system_stm32l4xx.o(.constdata)
-    .constdata                               0x08006368   Section      246  algorithm.o(.constdata)
-    auw_hamm                                 0x08006368   Data          62  algorithm.o(.constdata)
-    uch_spo2_table                           0x080063a6   Data         184  algorithm.o(.constdata)
-    .constdata                               0x0800645e   Section      129  ctype_o.o(.constdata)
-    .constdata                               0x080064e0   Section        4  ctype_o.o(.constdata)
-    table                                    0x080064e0   Data           4  ctype_o.o(.constdata)
+    .constdata                               0x0800633c   Section       64  system_stm32l4xx.o(.constdata)
+    .constdata                               0x0800637c   Section        8  system_stm32l4xx.o(.constdata)
+    .constdata                               0x08006384   Section      246  algorithm.o(.constdata)
+    auw_hamm                                 0x08006384   Data          62  algorithm.o(.constdata)
+    uch_spo2_table                           0x080063c2   Data         184  algorithm.o(.constdata)
+    .constdata                               0x0800647a   Section      129  ctype_o.o(.constdata)
+    .constdata                               0x080064fc   Section        4  ctype_o.o(.constdata)
+    table                                    0x080064fc   Data           4  ctype_o.o(.constdata)
     .data                                    0x20000000   Section      168  main.o(.data)
     pow10                                    0x20000080   Data          40  main.o(.data)
     .data                                    0x200000a8   Section        4  stm32l4xx_hal.o(.data)
@@ -2450,13 +2450,13 @@ Image Symbol Table
     __set_errno                              0x08005235   Thumb Code     6  errno.o(i.__set_errno)
     _is_digit                                0x080053cb   Thumb Code    14  scanf_fp.o(i._is_digit)
     fputc                                    0x08005b0d   Thumb Code    22  retarget_io.o(i.fputc)
-    main                                     0x08005b2d   Thumb Code  2008  main.o(i.main)
-    AHBPrescTable                            0x08006320   Data          16  system_stm32l4xx.o(.constdata)
-    MSIRangeTable                            0x08006330   Data          48  system_stm32l4xx.o(.constdata)
-    APBPrescTable                            0x08006360   Data           8  system_stm32l4xx.o(.constdata)
-    __ctype_table                            0x0800645e   Data         129  ctype_o.o(.constdata)
-    Region$$Table$$Base                      0x080064e4   Number         0  anon$$obj.o(Region$$Table)
-    Region$$Table$$Limit                     0x08006504   Number         0  anon$$obj.o(Region$$Table)
+    main                                     0x08005b2d   Thumb Code  2034  main.o(i.main)
+    AHBPrescTable                            0x0800633c   Data          16  system_stm32l4xx.o(.constdata)
+    MSIRangeTable                            0x0800634c   Data          48  system_stm32l4xx.o(.constdata)
+    APBPrescTable                            0x0800637c   Data           8  system_stm32l4xx.o(.constdata)
+    __ctype_table                            0x0800647a   Data         129  ctype_o.o(.constdata)
+    Region$$Table$$Base                      0x08006500   Number         0  anon$$obj.o(Region$$Table)
+    Region$$Table$$Limit                     0x08006520   Number         0  anon$$obj.o(Region$$Table)
     readytoSend                              0x20000000   Data           1  main.o(.data)
     ch_spo2_valid                            0x20000001   Data           1  main.o(.data)
     ch_hr_valid                              0x20000002   Data           1  main.o(.data)
@@ -2536,9 +2536,9 @@ Memory Map of the image
 
   Image Entry point : 0x0800018d
 
-  Load Region LR_IROM1 (Base: 0x08000000, Size: 0x00006608, Max: 0x00040000, ABSOLUTE)
+  Load Region LR_IROM1 (Base: 0x08000000, Size: 0x00006624, Max: 0x00040000, ABSOLUTE)
 
-    Execution Region ER_IROM1 (Exec base: 0x08000000, Load base: 0x08000000, Size: 0x00006504, Max: 0x00040000, ABSOLUTE)
+    Execution Region ER_IROM1 (Exec base: 0x08000000, Load base: 0x08000000, Size: 0x00006520, Max: 0x00040000, ABSOLUTE)
 
     Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
 
@@ -2769,31 +2769,31 @@ Memory Map of the image
     0x08005aba   0x08005aba   0x00000024   Code   RO         4470    i._printf_post_padding  mc_w.l(printfa.o)
     0x08005ade   0x08005ade   0x0000002e   Code   RO         4471    i._printf_pre_padding  mc_w.l(printfa.o)
     0x08005b0c   0x08005b0c   0x00000020   Code   RO         4086    i.fputc             retarget_io.o
-    0x08005b2c   0x08005b2c   0x000007f4   Code   RO           30    i.main              main.o
-    0x08006320   0x08006320   0x00000040   Data   RO         3777    .constdata          system_stm32l4xx.o
-    0x08006360   0x08006360   0x00000008   Data   RO         3778    .constdata          system_stm32l4xx.o
-    0x08006368   0x08006368   0x000000f6   Data   RO         3826    .constdata          algorithm.o
-    0x0800645e   0x0800645e   0x00000081   Data   RO         4187    .constdata          mc_w.l(ctype_o.o)
-    0x080064df   0x080064df   0x00000001   PAD
-    0x080064e0   0x080064e0   0x00000004   Data   RO         4188    .constdata          mc_w.l(ctype_o.o)
-    0x080064e4   0x080064e4   0x00000020   Data   RO         4580    Region$$Table       anon$$obj.o
+    0x08005b2c   0x08005b2c   0x00000810   Code   RO           30    i.main              main.o
+    0x0800633c   0x0800633c   0x00000040   Data   RO         3777    .constdata          system_stm32l4xx.o
+    0x0800637c   0x0800637c   0x00000008   Data   RO         3778    .constdata          system_stm32l4xx.o
+    0x08006384   0x08006384   0x000000f6   Data   RO         3826    .constdata          algorithm.o
+    0x0800647a   0x0800647a   0x00000081   Data   RO         4187    .constdata          mc_w.l(ctype_o.o)
+    0x080064fb   0x080064fb   0x00000001   PAD
+    0x080064fc   0x080064fc   0x00000004   Data   RO         4188    .constdata          mc_w.l(ctype_o.o)
+    0x08006500   0x08006500   0x00000020   Data   RO         4580    Region$$Table       anon$$obj.o
 
 
-    Execution Region RW_IRAM1 (Exec base: 0x20000000, Load base: 0x08006504, Size: 0x00002e90, Max: 0x00010000, ABSOLUTE)
+    Execution Region RW_IRAM1 (Exec base: 0x20000000, Load base: 0x08006520, Size: 0x00002e90, Max: 0x00010000, ABSOLUTE)
 
     Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
 
-    0x20000000   0x08006504   0x000000a8   Data   RW           51    .data               main.o
-    0x200000a8   0x080065ac   0x00000004   Data   RW         2436    .data               stm32l4xx_hal.o
-    0x200000ac   0x080065b0   0x00000004   Data   RW         3779    .data               system_stm32l4xx.o
-    0x200000b0   0x080065b4   0x00000048   Data   RW         3968    .data               adafruit_gps.o
-    0x200000f8   0x080065fc   0x00000004   Data   RW         4182    .data               mc_w.l(stdout.o)
-    0x200000fc   0x08006600   0x00000004   Data   RW         4183    .data               mc_w.l(stderr.o)
-    0x20000100   0x08006604   0x00000004   Data   RW         4536    .data               mc_w.l(errno.o)
+    0x20000000   0x08006520   0x000000a8   Data   RW           51    .data               main.o
+    0x200000a8   0x080065c8   0x00000004   Data   RW         2436    .data               stm32l4xx_hal.o
+    0x200000ac   0x080065cc   0x00000004   Data   RW         3779    .data               system_stm32l4xx.o
+    0x200000b0   0x080065d0   0x00000048   Data   RW         3968    .data               adafruit_gps.o
+    0x200000f8   0x08006618   0x00000004   Data   RW         4182    .data               mc_w.l(stdout.o)
+    0x200000fc   0x0800661c   0x00000004   Data   RW         4183    .data               mc_w.l(stderr.o)
+    0x20000100   0x08006620   0x00000004   Data   RW         4536    .data               mc_w.l(errno.o)
     0x20000104        -       0x00001138   Zero   RW           49    .bss                main.o
     0x2000123c        -       0x00001760   Zero   RW         3825    .bss                algorithm.o
     0x2000299c        -       0x000000f0   Zero   RW         3967    .bss                adafruit_gps.o
-    0x20002a8c   0x08006608   0x00000004   PAD
+    0x20002a8c   0x08006624   0x00000004   PAD
     0x20002a90        -       0x00000400   Zero   RW            1    STACK               startup_stm32l432xx.o
 
 
@@ -2806,7 +2806,7 @@ Image component sizes
 
       1252         80          0         72        240       8883   adafruit_gps.o
       1438         32        246          0       5984       8515   algorithm.o
-      3796        590          0        168       4408     667124   main.o
+      3824        592          0        168       4408     667144   main.o
       1760          0          0          0          0       5038   max30102.o
         68         14          0          0          0       3447   retarget_io.o
         36          8        396          0       1024        852   startup_stm32l432xx.o
@@ -2829,7 +2829,7 @@ Image component sizes
         68         12         72          4          0       1265   system_stm32l4xx.o
 
     ----------------------------------------------------------------------
-     18770       1188        746        248      11660    1470763   Object Totals
+     18798       1190        746        248      11660    1470783   Object Totals
          0          0         32          0          0          0   (incl. Generated)
         44          0          0          0          4          0   (incl. Padding)
 
@@ -2910,15 +2910,15 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-     24980       1382        880        260      11660    1459571   Grand Totals
-     24980       1382        880        260      11660    1459571   ELF Image Totals
-     24980       1382        880        260          0          0   ROM Totals
+     25008       1384        880        260      11660    1459591   Grand Totals
+     25008       1384        880        260      11660    1459591   ELF Image Totals
+     25008       1384        880        260          0          0   ROM Totals
 
 ==============================================================================
 
-    Total RO  Size (Code + RO Data)                25860 (  25.25kB)
+    Total RO  Size (Code + RO Data)                25888 (  25.28kB)
     Total RW  Size (RW Data + ZI Data)             11920 (  11.64kB)
-    Total ROM Size (Code + RO Data + RW Data)      26120 (  25.51kB)
+    Total ROM Size (Code + RO Data + RW Data)      26148 (  25.54kB)
 
 ==============================================================================
 

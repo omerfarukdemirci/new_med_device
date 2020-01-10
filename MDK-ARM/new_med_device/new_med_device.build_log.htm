@@ -29,14 +29,24 @@ Project File Date:  11/23/2019
 *** Warning: You are compiling one or more files of source type C++ and have selected 'use MicroLIB'. MicroLIB does not support C++!
   
 Build target 'new_med_device'
-compiling algorithm.cpp...
+compiling main.cpp...
+..\Drivers\MAX30102\max30102.h(102): warning:  #1-D: last line of file ends without a newline
+  //#endif /* MAX30102_H_ */
 ..\Drivers\MAX30102\algorithm.h(102): warning:  #1-D: last line of file ends without a newline
   #endif /* ALGORITHM_H_ */
-..\Drivers\MAX30102\algorithm.cpp: 1 warning, 0 errors
+main.cpp(91): warning:  #177-D: variable "i"  was declared but never referenced
+  	int i = 0;
+main.cpp(164): warning:  #780-D: reference is to variable "i"  (declared at line 54) -- under old for-init scoping rules it would have been variable "i"  (declared at line 137)
+  	un_prev_data=aun_red_buffer[i];
+main.cpp(211): warning:  #940-D: missing return statement at end of non-void function "findigit" 
+  }
+main.cpp(375): warning:  #780-D: reference is to variable "i"  (declared at line 54) -- under old for-init scoping rules it would have been variable "i"  (declared at line 333)
+  	i =  0;
+main.cpp: 6 warnings, 0 errors
 linking...
-Program Size: Code=24980 RO-data=880 RW-data=260 ZI-data=11660  
+Program Size: Code=25008 RO-data=880 RW-data=260 ZI-data=11660  
 FromELF: creating hex file...
-"new_med_device\new_med_device.axf" - 0 Error(s), 1 Warning(s).
+"new_med_device\new_med_device.axf" - 0 Error(s), 6 Warning(s).
 
 <h2>Software Packages used:</h2>
 
